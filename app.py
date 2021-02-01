@@ -4,6 +4,7 @@ from apispec import APISpec
 from apispec.ext.marshmallow import MarshmallowPlugin
 from flask_apispec.extension import FlaskApiSpec
 from webargs.flaskparser import parser, abort
+from src.endpoints import CleanPredictionsAPI
 
 app = Flask(__name__)
 api = Api(app)
@@ -23,3 +24,5 @@ docs = FlaskApiSpec(app)
 def handle_request_validation_error(err, req, schema, error_status_code, error_headers):
     abort(400, errors=err.messages)
 
+api.add_resource(CleanPredictionsAPI, '/cleans/predictions')
+docs.register(CleanPredictionsAPI)
