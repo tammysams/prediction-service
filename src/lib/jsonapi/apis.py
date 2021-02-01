@@ -1,4 +1,5 @@
 import json
+import concurrent.futures
 from itertools import chain
 from functools import reduce
 from marshmallow import Schema, ValidationError
@@ -48,9 +49,10 @@ class ListAPI(ABC):
 
     def filter_by_id(self, ids=[]):
         queries = self.batch_queries(ids)
-        result = map(self._request, queries)
-        chained = chain(*[response['data'] for response in result])
-        return list(chained)
+        with concurrent.futures.ThreadPoolExecutor() as executor:
+            result = executor.map(self._request, queries)
+            chained = chain(*[response['data'] for response in result])
+            return list(chained)
 
     # Helpers
     @staticmethod
