@@ -1,13 +1,25 @@
 import json
-import threading
-import concurrent.futures
 from itertools import chain
 from functools import reduce
 from marshmallow import Schema, ValidationError
 from abc import ABC
 from src.lib.jsonapi.client import JSONAPIClient
 
+def implements(instance, cls):
+    return issubclass(type(instance), cls) or type(instance)==cls
+
 class ListAPI(ABC):
+
+    def __init__(self):
+        try:
+            assert(all(map(lambda args: implements(*args), (
+                    (self.client, JSONAPIClient), 
+                    (self.query_schema, Schema), 
+                    (self.resource, str),
+                )))
+            )
+        except AssertionError as e:
+            raise NotImplementedError()
 
     def _request(self, query_params):
         self._validate_query(query_params)
