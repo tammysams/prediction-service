@@ -2,8 +2,12 @@ from flask import Flask, Blueprint, jsonify
 from flask_restful import Api
 from apispec import APISpec
 from apispec.ext.marshmallow import MarshmallowPlugin
+<<<<<<< HEAD
 from src.extension import PatchedFlaskApiSpec as FlaskApiSpec
 
+=======
+from flask_apispec.extension import FlaskApiSpec
+>>>>>>> main
 from webargs.flaskparser import parser, abort
 from src.endpoints import CleanPredictionsAPI
 
@@ -21,7 +25,10 @@ app.config.update({
     'APISPEC_SWAGGER_URL': '/schema/',
     'APISPEC_SWAGGER_UI_URL': '/docs/'
 })
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 docs = FlaskApiSpec(app)
 
 @app.errorhandler(404)
