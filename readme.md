@@ -44,14 +44,14 @@ class CleansListAPI(ListAPI):
 ```
 
 ### Batching of Requests
-This service depends on the [housekeeping service](ekeeping.vacasa.io/#operation/cleans_list) (“cleans” resource). Following the JSON-API spec, the housekeeping service uses query params to filter resource UUIDs, which constrains the maximum number of UUIDs that can be filtered in a single request, before a max URL is reached (2,048 chars) or 175 uuids.
+This service depends on the [housekeeping service](https://housekeeping.vacasa.io/#operation/cleans_list) (“cleans” resource). In accordance with the JSON-API spec, the housekeeping service uses query params to filter resource UUIDs. This constrains the number of UUIDs that can be filtered in a single request before a max URL is reached (2,048 chars) to a maximum of 175.
 
-When a request contains on a long list of UUIDs, the list is de-duplicated and requests are sent in batches with a max of 175 UUIDs
+When a request contains on a long list of UUIDs, the list is de-duplicated and requests are sent in batches of no more than 175 UUIDs.
 
 *(even though the housekeeping ignores duplicates, we must dedup when batching, since duplicates could span multiple batches)
 
 ### Multi-Threading of Batched Requests
-The JSON-API library created for this service leverages multi-threading to parallelize batched requests (outlined above) to improve total performance. This is additionally desirable to avoid time-outs, since AWS gateway imposes a hard-max of 30s before closing connections (which is adopted in our serverless.yml configuration). [note the different timescales below].
+The JSON-API library created for this service leverages multi-threading to parallelize batched requests (as described above) to improve total performance. This is additionally desirable to avoid time-outs, since API gateway imposes a hard-max of 30s before closing connections.
 
 Batched requests totaling 3000 UUIDs
 ---
@@ -107,13 +107,24 @@ pytest
 * [Some additional test coverage plans here](https://github.com/tammysams/prediction-service/blob/feature/mvp-predictions/src/lib/jsonapi/jsonapi_test.py)
 
 ## API Documentation
-[Swagger Docs](https://kjtxpgv5ei.execute-api.us-east-1.amazonaws.com/dev/docs/#/Clean) 
+[Swagger Docs](https://kjtxpgv5ei.execute-api.us-east-1.amazonaws.com/dev/docs/#/Clean) (NOTE: The "Try it out" action in the Swagger docs has a path config problem (endpoint missing /dev prefix) and will return 403. The actual cURL needed is below)
 
 - Get Min/Max/Sum of Clean Prediction Times given a list of Clean UUIDs 
 ```
 curl -POST "https://kjtxpgv5ei.execute-api.us-east-1.amazonaws.com/dev/cleans/predictions"
 --data '{
-"clean_ids":["e3e70682-c209-4cac-629f-6fbed82c07cd", "16a92bf5-0e5d-4372-a801-1d4e2895be65"]
+    "clean_ids":[
+        "e3e70682-c209-4cac-629f-6fbed82c07cd",
+        "16a92bf5-0e5d-4372-a801-1d4e2895be65"
+    ]
 }'
 -H "Content-Type: application/json"
+```
+```
+<Response.200>
+{
+    "max": 2.91691406956171,
+    "min": 2.91691406956171,
+    "sum": 2.91691406956171
+}
 ```
