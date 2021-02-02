@@ -51,10 +51,25 @@ When a request contains on a long list of UUIDs, the list is de-duplicated and r
 *(even though the housekeeping ignores duplicates, we must dedup when batching, since duplicates could span multiple batches)
 
 ### Multi-Threading of Batched Requests
-The JSON-API library created for this service leverages multi-threading to parallelize batched requests (outlined above) to improve total performance. This is additionally desirable to avoid time-outs, since API Gateway imposes a hard-max of 30s before closing connections (which is adopted in our serverless.yml configuration). [note the different timescales below].
+The JSON-API library created for this service leverages multi-threading to parallelize batched requests (outlined above) to improve total performance. This is additionally desirable to avoid time-outs, since AWS gateway imposes a hard-max of 30s before closing connections (which is adopted in our serverless.yml configuration). [note the different timescales below].
 
-- **Before** 
-- **After**
+Batched requests totaling 3000 UUIDs
+---
+- **Before (8s)** 
+![image](https://user-images.githubusercontent.com/37048195/106646344-7f204400-6542-11eb-882d-7ef31677f7b6.png)
+- **After (3s)** 
+![image](https://user-images.githubusercontent.com/37048195/106647009-3b7a0a00-6543-11eb-9a95-ba0bc068af7a.png)
+
+**Tested at a max of 72,000 UUIDs before I hit a rate limit**
+```bash
+LENGTH REQUEST 72000
+'get_min_max_sum'  11839.79 ms
+127.0.0.1 - - [31/Jan/2021 22:54:28] "POST /cleans/predictions HTTP/1.1" 200 -
+
+LENGTH REQUEST 72000
+[2021-01-31 22:56:08,656] ERROR in endpoints:
+127.0.0.1 - - [31/Jan/2021 22:56:08] "POST /cleans/predictions HTTP/1.1" 403 -
+```
 
 
 ## Installation/Usage
