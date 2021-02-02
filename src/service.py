@@ -14,9 +14,16 @@ class CleanPredictionService():
         :return     min, max, sum predicted clean times
 
         '''
-        predicted_clean_times = self.cleans.list_predictions(clean_ids)
-        return {
-            'sum': sum(predicted_clean_times),
-            'max': max(predicted_clean_times),
-            'min': min(predicted_clean_times)
-        }
+        predictions = self.cleans.list_predictions(clean_ids)
+        if not predictions:
+            return {
+                'sum': 0,
+                'min': None,
+                'max': None
+            }
+        else:
+            return {
+                'sum': sum(predictions),
+                'max': max(predictions),
+                'min': min(predictions)
+            }

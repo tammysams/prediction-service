@@ -51,7 +51,7 @@ When a request contains on a long list of UUIDs, the list is de-duplicated and r
 *(even though the housekeeping ignores duplicates, we must dedup when batching, since duplicates could span multiple batches)
 
 ### Multi-Threading of Batched Requests
-The JSON-API library created for this service leverages multi-threading to parallelize batched requests (outlined above) to improve total performance. This is additionally desirable to avoid time-outs, since AWS gateway imposes a hard-max of 30s before closing connections (which is adopted in our serverless.yml configuration). [note the different timescales below].
+The JSON-API library created for this service leverages multi-threading to parallelize batched requests (outlined above) to improve total performance. This is additionally desirable to avoid time-outs, since API Gateway imposes a hard-max of 30s before closing connections (which is adopted in our serverless.yml configuration). [note the different timescales below].
 
 - **Before** 
 - **After**

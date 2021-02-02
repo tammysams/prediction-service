@@ -65,7 +65,7 @@ class ListAPI(ABC):
 
     @staticmethod
     def build_id_query(ids=[]):
-        id_string = reduce(lambda a,b: f"{a},{b}", ids) #stringify and join ids
+        id_string = ','.join(map(str,ids)) #stringify and join ids
         return {
             "filter[id][in]": id_string,
             "page[size]": 175
