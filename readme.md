@@ -107,40 +107,6 @@ pytest
 * [Some additional test coverage plans here](https://github.com/tammysams/prediction-service/blob/feature/mvp-predictions/src/lib/jsonapi/jsonapi_test.py)
 
 ## API Documentation
-[Swagger Docs](https://kjtxpgv5ei.execute-api.us-east-1.amazonaws.com/dev/docs/#/Clean) (NOTE: The "Try it out" action in the Swagger docs has a path config problem (endpoint missing /dev prefix) and will return 403. The actual cURL needed is below)
+* [Swagger Docs](https://kjtxpgv5ei.execute-api.us-east-1.amazonaws.com/dev/docs/#/Clean) 
 
-- Get Min/Max/Sum of Clean Prediction Times given a list of Clean UUIDs 
-```
-curl -POST "https://kjtxpgv5ei.execute-api.us-east-1.amazonaws.com/dev/cleans/predictions"
---data '{
-    "clean_ids":[
-        "e3e70682-c209-4cac-629f-6fbed82c07cd",
-        "16a92bf5-0e5d-4372-a801-1d4e2895be65"
-    ]
-}'
--H "Content-Type: application/json"
-```
-```
-<Response.200>
-{
-    "max": 2.91691406956171,
-    "min": 2.91691406956171,
-    "sum": 2.91691406956171
-}
-```
-- Empty list given (or empty list returned from housekeeping) will result in
-```
-curl -POST "https://kjtxpgv5ei.execute-api.us-east-1.amazonaws.com/dev/cleans/predictions"
---data '{
-    "clean_ids":[]
-}'
--H "Content-Type: application/json"
-```
-```
-<Response.200>
-{
-    "max": null,
-    "min": null,
-    "sum": 0
-}
-```
+![image](https://user-images.githubusercontent.com/37048195/106657733-3de36080-6551-11eb-8e4d-0f20cec322a7.png)

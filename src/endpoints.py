@@ -9,7 +9,7 @@ from src.lib.jsonapi.errors import ClientAPIError
 
 class CleanPredictionsAPI(Resource, MethodResource):
 
-    @doc(description='Housekeeping Clean Predictions API', tags=['Clean'])
+    @doc(description='Get Min/Max/Sum of Housekeeping Clean Prediction Times given a list of Clean UUIDs', tags=['Clean'])
     @use_kwargs(CleanPredictionRequest)
     def post(self, clean_ids):
         """ 
