@@ -104,6 +104,7 @@ Run Tests
 ```bash
 pytest
 ```
+* [Some additional test coverage plans here](https://github.com/tammysams/prediction-service/blob/feature/mvp-predictions/src/lib/jsonapi/jsonapi_test.py)
 
 ## API Documentation
 [Swagger Docs](https://kjtxpgv5ei.execute-api.us-east-1.amazonaws.com/dev/docs/#/Clean) 
