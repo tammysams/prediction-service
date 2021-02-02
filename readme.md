@@ -128,3 +128,19 @@ curl -POST "https://kjtxpgv5ei.execute-api.us-east-1.amazonaws.com/dev/cleans/pr
     "sum": 2.91691406956171
 }
 ```
+- Empty list given (or empty list returned from housekeeping) will result in
+```
+curl -POST "https://kjtxpgv5ei.execute-api.us-east-1.amazonaws.com/dev/cleans/predictions"
+--data '{
+    "clean_ids":[]
+}'
+-H "Content-Type: application/json"
+```
+```
+<Response.200>
+{
+    "max": null,
+    "min": null,
+    "sum": 0
+}
+```
