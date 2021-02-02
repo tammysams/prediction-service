@@ -2,7 +2,8 @@ from flask import Flask, Blueprint, jsonify
 from flask_restful import Api
 from apispec import APISpec
 from apispec.ext.marshmallow import MarshmallowPlugin
-from flask_apispec.extension import FlaskApiSpec
+from src.extension import PatchedFlaskApiSpec as FlaskApiSpec
+
 from webargs.flaskparser import parser, abort
 from src.endpoints import CleanPredictionsAPI
 
