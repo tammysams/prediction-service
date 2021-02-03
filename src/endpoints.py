@@ -16,7 +16,7 @@ class CleanPredictionsAPI(Resource, MethodResource):
             :clean_ids  [String<UUID>]
         """
         try:
-            return CleanPredictionService().get_min_max_sum(clean_ids)
+            return CleanPredictionService().get_min_max_sum(list(set(clean_ids)))
         except ClientAPIError as e:
             app.logger.error(e)
             abort(e.status, errors=e.message)
